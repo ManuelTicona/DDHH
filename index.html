@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derechos Humanos — Una mirada interactiva</title>
+<meta name="description" content="Presentación interactiva sobre los Derechos Humanos">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+:root{
+  --bg:#08111f; --bg2:#0d1b2e; --text:#f4f7fb; --muted:#aab8ca;
+  --cyan:#55d6be; --blue:#6ea8fe; --violet:#a78bfa; --card:rgba(255,255,255,.07);
+  --line:rgba(255,255,255,.12); --shadow:0 25px 70px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"DM Sans",sans-serif;background:radial-gradient(circle at 80% 10%,#19345b 0,transparent 30%),radial-gradient(circle at 10% 40%,#123b3c 0,transparent 25%),var(--bg);color:var(--text);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{font:inherit}
+.container{width:min(1120px,90%);margin:auto}
+nav{position:fixed;z-index:20;top:0;left:0;right:0;background:rgba(8,17,31,.65);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav-inner{height:72px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:700;letter-spacing:.08em;font-size:.85rem}
+.logo span{color:var(--cyan)}
+.nav-links{display:flex;gap:25px;color:var(--muted);font-size:.9rem}
+.nav-links a:hover{color:white}
+.hero{min-height:100vh;display:grid;place-items:center;position:relative;padding:120px 0 70px}
+.grid-bg{position:absolute;inset:0;opacity:.18;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:70px 70px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
+.hero-content{text-align:center;position:relative;max-width:850px}
+.eyebrow{display:inline-flex;padding:8px 14px;border:1px solid rgba(85,214,190,.35);border-radius:999px;color:var(--cyan);font-size:.78rem;text-transform:uppercase;letter-spacing:.15em;margin-bottom:25px;background:rgba(85,214,190,.06)}
+h1{font-family:"Playfair Display",serif;font-size:clamp(3.5rem,9vw,7.5rem);line-height:.9;letter-spacing:-.05em}
+.gradient{background:linear-gradient(110deg,#fff 20%,var(--cyan),var(--blue),#fff 85%);-webkit-background-clip:text;color:transparent;background-size:250% auto;animation:shine 6s ease infinite}
+@keyframes shine{50%{background-position:100% 50%}}
+.hero p{max-width:650px;margin:30px auto;color:var(--muted);font-size:1.1rem;line-height:1.7}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 20px;border-radius:14px;background:white;color:#08111f;font-weight:700;transition:.25s;cursor:pointer;border:0}
+.btn:hover{transform:translateY(-3px);box-shadow:0 15px 35px rgba(255,255,255,.15)}
+.scroll{margin-top:65px;color:var(--muted);font-size:.8rem;animation:bob 2s infinite}
+@keyframes bob{50%{transform:translateY(6px)}}
+section{padding:100px 0}
+.section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:40px}
+.kicker{color:var(--cyan);text-transform:uppercase;letter-spacing:.14em;font-size:.75rem;font-weight:700}
+h2{font-family:"Playfair Display",serif;font-size:clamp(2.2rem,5vw,4rem);line-height:1;margin-top:10px}
+.section-head p{max-width:430px;color:var(--muted);line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;min-height:250px;position:relative;overflow:hidden;transition:.3s;cursor:pointer}
+.card:before{content:"";position:absolute;width:170px;height:170px;border-radius:50%;background:var(--accent);filter:blur(60px);opacity:.13;right:-70px;top:-70px}
+.card:hover{transform:translateY(-7px);border-color:rgba(255,255,255,.25)}
+.number{font-size:.75rem;color:var(--muted);letter-spacing:.15em}
+.icon{font-size:2.2rem;margin:20px 0 14px}
+.card h3{font-size:1.35rem;margin-bottom:10px}
+.card p{color:var(--muted);line-height:1.55;font-size:.94rem}
+.card .examples{display:none;margin-top:18px;color:#dfe8f3;font-size:.88rem;line-height:1.6}
+.card.active .examples{display:block}
+.card.active{background:rgba(255,255,255,.1)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.info{padding:38px;border:1px solid var(--line);border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.03))}
+.info h3{font-size:1.5rem;margin-bottom:15px}
+.info p{color:var(--muted);line-height:1.7}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}
+.pill{padding:9px 13px;border:1px solid var(--line);border-radius:999px;color:#dfe8f3;font-size:.85rem}
+.state-list{display:grid;gap:14px;margin-top:20px}
+.state-item{display:flex;gap:15px;align-items:flex-start}
+.state-item b{display:block;margin-bottom:3px}
+.state-item span{color:var(--muted);font-size:.9rem}
+.quiz-wrap{max-width:780px;margin:auto}
+.quiz{background:linear-gradient(145deg,rgba(110,168,254,.13),rgba(85,214,190,.07));border:1px solid var(--line);border-radius:30px;padding:35px;box-shadow:var(--shadow)}
+.progress{height:6px;background:rgba(255,255,255,.1);border-radius:99px;margin-bottom:28px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue));transition:.35s}
+.question{font-size:1.45rem;font-weight:700;line-height:1.35;margin-bottom:24px}
+.options{display:grid;gap:12px}
+.option{padding:16px 18px;text-align:left;border-radius:15px;border:1px solid var(--line);background:rgba(255,255,255,.045);color:white;cursor:pointer;transition:.2s}
+.option:hover{background:rgba(255,255,255,.1);transform:translateX(4px)}
+.option.correct{border-color:#55d6be;background:rgba(85,214,190,.15)}
+.option.wrong{border-color:#fb7185;background:rgba(251,113,133,.12)}
+.feedback{min-height:25px;margin-top:18px;color:var(--muted)}
+.quiz-footer{display:flex;justify-content:space-between;align-items:center;margin-top:25px}
+#next{display:none}
+.result{text-align:center;display:none}
+.score{font-size:5rem;font-family:"Playfair Display",serif;margin:15px 0;background:linear-gradient(120deg,var(--cyan),var(--blue));-webkit-background-clip:text;color:transparent}
+footer{padding:40px 0 55px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:.85rem}
+.reveal{opacity:0;transform:translateY(25px);transition:.7s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:800px){
+ .nav-links{display:none}.cards,.split{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:18px}
+ h1{font-size:4rem}.hero p{font-size:1rem}.quiz{padding:24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a class="logo" href="#inicio">DD<span>HH</span></a>
+    <div class="nav-links">
+      <a href="#seccion1">Concepto</a>
+      <a href="#seccion2">Tipos</a>
+      <a href="#seccion3">Exigibilidad</a>
+      <a href="#seccion4">Estado</a>
+      <a href="#quiz">Quiz</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="grid-bg"></div>
+  <div class="hero-content reveal">
+    <div class="eyebrow">Grupo 3 · Ciudadanía</div>
+    <h1><span class="gradient">Derechos<br>Humanos</span></h1>
+    <p>Una experiencia breve para conocer, relacionar y poner a prueba conceptos fundamentales.</p>
+    <a class="btn" href="#seccion1">Comenzar ↓</a>
+    <div class="scroll">EXPLORÁ LAS 5 SECCIONES</div>
+  </div>
+</header>
+
+<!-- 1 -->
+<section id="seccion1">
+  <div class="container">
+    <div class="section-head reveal">
+      <div><div class="kicker">01 · Concepto</div><h2>¿Qué son?</h2></div>
+      <p>Son derechos fundamentales que protegen la dignidad y la libertad de todas las personas.</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal" style="--accent:#55d6be">
+        <div class="icon">✦</div><h3>Dignidad</h3>
+        <p>La persona y su valor están en el centro.</p>
+      </article>
+      <article class="card reveal" style="--accent:#6ea8fe">
+        <div class="icon">∞</div><h3>Universalidad</h3>
+        <p>Corresponden a todas las personas, sin distinción.</p>
+      </article>
+      <article class="card reveal" style="--accent:#a78bfa">
+        <div class="icon">◈</div><h3>Igualdad</h3>
+        <p>Todos deben recibir protección de sus derechos.</p>
+      </article>
+    </div>
+    <div class="info reveal" style="margin-top:18px">
+      <div class="pills">
+        <span class="pill">DIGNIDAD</span><span class="pill">LIBERTAD</span><span class="pill">IGUALDAD</span><span class="pill">NO DISCRIMINACIÓN</span><span class="pill">PROTECCIÓN</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section id="seccion2">
+  <div class="container">
+    <div class="section-head reveal">
+      <div><div class="kicker">02 · Clasificación</div><h2>Tres grandes<br>grupos.</h2></div>
+      <p>Hacé clic en cada tarjeta para descubrir algunos ejemplos.</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal" style="--accent:#55d6be" onclick="this.classList.toggle('active')">
+        <div class="number">01</div><div class="icon">◉</div><h3>Civiles y políticos</h3>
+        <p>Libertad · participación · protección.</p>
+        <div class="examples"><b>Palabras clave:</b><br>vida · libertad · expresión · privacidad · reunión · debido proceso.</div>
+      </article>
+      <article class="card reveal" style="--accent:#6ea8fe" onclick="this.classList.toggle('active')">
+        <div class="number">02</div><div class="icon">◇</div><h3>Económicos, sociales y culturales</h3>
+        <p>Desarrollo · oportunidades · bienestar.</p>
+        <div class="examples"><b>Palabras clave:</b><br>educación · trabajo · vivienda · identidad · información · sindicatos.</div>
+      </article>
+      <article class="card reveal" style="--accent:#a78bfa" onclick="this.classList.toggle('active')">
+        <div class="number">03</div><div class="icon">✦</div><h3>Colectivos o de los pueblos</h3>
+        <p>Comunidad · presente · futuro.</p>
+        <div class="examples"><b>Palabras clave:</b><br>medio ambiente · recursos · desarrollo · asistencia · cooperación.</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="seccion3">
+  <div class="container">
+    <div class="section-head reveal">
+      <div><div class="kicker">03 · Exigibilidad</div><h2>De la teoría<br>a la práctica.</h2></div>
+      <p>Un derecho necesita reconocimiento legal y garantías para poder exigirse.</p>
+    </div>
+    <div class="split">
+      <div class="info reveal">
+        <h3>¿Qué significa?</h3>
+        <p>Los derechos humanos se vuelven efectivos mediante la <b>positivización</b> o legislación y mecanismos que permitan reclamar su cumplimiento.</p>
+        <div class="pills">
+          <span class="pill">LEYES</span><span class="pill">GARANTÍAS</span><span class="pill">DERECHO POSITIVO</span><span class="pill">PROTECCIÓN</span>
+        </div>
+      </div>
+      <div class="info reveal">
+        <h3>Dos ámbitos</h3>
+        <div class="state-list">
+          <div class="state-item"><strong>01</strong><div><b>Derecho interno</b><span>Regula y protege los derechos dentro de un país.</span></div></div>
+          <div class="state-item"><strong>02</strong><div><b>Derecho internacional</b><span>Regula relaciones entre Estados y protege derechos más allá de las fronteras.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section id="seccion4">
+  <div class="container">
+    <div class="section-head reveal">
+      <div><div class="kicker">04 · Estado</div><h2>¿Quién debe<br>protegerlos?</h2></div>
+      <p>El Estado tiene obligaciones concretas para que los derechos sean respetados y efectivos.</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal" style="--accent:#55d6be"><div class="number">01</div><div class="icon">✓</div><h3>Respetar</h3><p>No violar los derechos protegidos.</p></article>
+      <article class="card reveal" style="--accent:#6ea8fe"><div class="number">02</div><div class="icon">◉</div><h3>Garantizar</h3><p>Asegurar su goce y pleno ejercicio.</p></article>
+      <article class="card reveal" style="--accent:#a78bfa"><div class="number">03</div><div class="icon">→</div><h3>Actuar</h3><p>Adoptar medidas para hacerlos efectivos.</p></article>
+    </div>
+    <div class="info reveal" style="margin-top:18px">
+      <h3>Democracia + Derechos Humanos</h3>
+      <p>La democracia permite crear mecanismos para <b>respetar, proteger y exigir</b> los derechos. También es importante la <b>igualdad</b> y la protección de las personas más vulnerables.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section id="quiz">
+  <div class="container">
+    <div class="section-head reveal">
+      <div><div class="kicker">05 · Ponete a prueba</div><h2>Mini Quiz</h2></div>
+      <p>5 preguntas. Elegí una opción y descubrí cuánto recordás.</p>
+    </div>
+    <div class="quiz-wrap">
+      <div class="quiz reveal">
+        <div id="quizGame">
+          <div class="progress"><div class="progress-bar" id="progress"></div></div>
+          <div class="question" id="question"></div>
+          <div class="options" id="options"></div>
+          <div class="feedback" id="feedback"></div>
+          <div class="quiz-footer"><span id="counter" style="color:var(--muted)"></span><button class="btn" id="next">Siguiente →</button></div>
+        </div>
+        <div class="result" id="result">
+          <div class="kicker">Resultado</div>
+          <h3>¡Quiz terminado!</h3>
+          <div class="score" id="score"></div>
+          <p id="message" style="color:var(--muted);margin-bottom:25px"></p>
+          <button class="btn" onclick="restartQuiz()">Intentar de nuevo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">DERECHOS HUMANOS · PRESENTACIÓN INTERACTIVA · CAPÍTULO 8</div>
+</footer>
+
+<script>
+const questions = [
+ {q:"¿Qué concepto está directamente relacionado con el valor de toda persona?", o:["Dignidad","Impuestos","Soberanía económica","Competencia"], a:0},
+ {q:"¿Cuál pertenece a los derechos civiles y políticos?", o:["Derecho a la vivienda","Derecho a la educación","Libertad de expresión","Derecho al desarrollo"], a:2},
+ {q:"¿Cuál es un derecho colectivo?", o:["Debido proceso","Medio ambiente","Libertad de conciencia","Derecho al honor"], a:1},
+ {q:"¿Qué permite que un derecho pueda exigirse en la práctica?", o:["Solo conocerlo","Su reconocimiento legal y garantías","Que sea voluntario","Que dependa de cada persona"], a:1},
+ {q:"¿Cuál NO es una obligación básica del Estado?", o:["Respetar","Garantizar","Adoptar medidas","Eliminar todas las diferencias"], a:3}
+];
+let current=0, correct=0, answered=false;
+const $=id=>document.getElementById(id);
+function loadQuestion(){
+ answered=false;
+ const x=questions[current];
+ $("question").textContent=x.q;
+ $("counter").textContent=`Pregunta ${current+1} de ${questions.length}`;
+ $("progress").style.width=`${current/questions.length*100}%`;
+ $("feedback").textContent="";
+ $("next").style.display="none";
+ $("options").innerHTML="";
+ x.o.forEach((text,i)=>{
+   const b=document.createElement("button"); b.className="option"; b.textContent=text;
+   b.onclick=()=>answer(i,b); $("options").appendChild(b);
+ });
+}
+function answer(i,btn){
+ if(answered)return; answered=true;
+ const x=questions[current];
+ [...$("options").children].forEach((b,j)=>{if(j===x.a)b.classList.add("correct")});
+ if(i===x.a){correct++;btn.classList.add("correct");$("feedback").textContent="✓ Correcto";}
+ else {btn.classList.add("wrong");$("feedback").textContent="✕ No exactamente. La respuesta correcta está marcada."}
+ $("next").style.display="inline-flex";
+}
+$("next").onclick=()=>{
+ current++;
+ if(current<questions.length)loadQuestion(); else finish();
+};
+function finish(){
+ $("quizGame").style.display="none"; $("result").style.display="block";
+ $("score").textContent=`${correct}/${questions.length}`;
+ $("message").textContent=correct===5?"¡Excelente! Tenés muy claros los conceptos.":correct>=3?"¡Muy bien! Ya tenés una buena base.":"Buen intento. Volvé a mirar las secciones y probá otra vez.";
+}
+function restartQuiz(){current=0;correct=0;$("quizGame").style.display="block";$("result").style.display="none";loadQuestion()}
+loadQuestion();
+
+const observer=new IntersectionObserver(entries=>{
+ entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible")});
+},{threshold:.12});
+document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
